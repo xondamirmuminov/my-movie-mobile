@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 
 const screenOptions = {
   headerShown: false,
-  tabBarActiveTintColor: COLORS.DARK_RED,
+  tabBarActiveTintColor: COLORS.RED,
   tabBarStyle: {
     elevation: 2,
     backgroundColor: COLORS.SCREEN_BG,
@@ -74,6 +74,16 @@ const BottomTabNavigation = ({navigation}) => {
           tabBarLabel: 'TV Shows',
           tabBarIcon: ({color, size}) => (
             <FontAwesomeIcon color={color} name="tv" size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Actors"
+        component={Movie}
+        options={{
+          tabBarLabel: 'Actors',
+          tabBarIcon: ({color, size}) => (
+            <FontAwesomeIcon color={color} name="star-o" size={30} />
           ),
         }}
       />

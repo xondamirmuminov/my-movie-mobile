@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import keys from '../configs';
 import store from '../store';
-import {loading} from '../store/actions';
+import {loading} from '../store/Loading/actions';
 
 const baseURL = keys.BACKEND_API;
 

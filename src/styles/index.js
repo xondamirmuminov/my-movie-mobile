@@ -29,9 +29,9 @@ S.Container = styled(View)`
 S.Title = styled(Text)`
   font-family: 'Poppins';
   font-style: normal;
-  font-weight: ${props => props.weight || 500};
-  font-size: ${props => props.size || '20px'};
-  line-height: ${props => props.lineHeight || '24px'};
+  font-weight: ${props => props.weight || 600};
+  font-size: ${props => props.size || '24px'};
+  line-height: ${props => props.lineHeight || '28px'};
   letter-spacing: ${props => props.letterSpacing || '-0.24px'};
   color: ${props => props.color || COLORS.TITLE_COLOR};
   margin-bottom: ${props => props.mb || '0px'};
