@@ -73,7 +73,7 @@ S.RedButton = styled(TouchableOpacity)`
   width: ${props => props.width || '100%'};
   height: ${props => props.height || '52px'};
   background-color: ${props => props.bgColor || COLORS.RED};
-  border-radius: ${props => props.borderRadius || '12px'};
+  border-radius: ${props => props.borderRadius || '20px'};
   justify-content: center;
   align-items: center;
   margin-top: ${props => props.mt || '0px'};
