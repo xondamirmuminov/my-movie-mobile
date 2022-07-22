@@ -1,11 +1,10 @@
 import React from 'react';
 import {
   View,
-  Text,
-  StyleSheet,
   ImageBackground,
-  Button,
   Image,
+  TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
@@ -14,10 +13,8 @@ import Styled from '../styles';
 import {sendQuery} from '../utils/axios';
 import Urls from '../utils/urls';
 import configs from '../configs';
-import {ScrollView} from 'react-native-gesture-handler';
-import S from '../styles';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const [state, setState] = useState({
     tv: [],
     week: [],
@@ -114,16 +111,18 @@ const Home = () => {
           </ImageBackground>
         </View>
         <Styled.Container>
-          <S.Title weight={500} size={20} mt={25}>
+          <Styled.Title weight={500} size={20} mt={25}>
             Top 20 TV Shows This Week
-          </S.Title>
+          </Styled.Title>
           <ScrollView
             horizontal={true}
             style={{
               marginVertical: 25,
             }}>
             {state?.tv?.map(item => (
-              <View style={{marginRight: 15, width: 180}}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('MovieDetails')}
+                style={{marginRight: 15, width: 180}}>
                 <Image
                   source={{uri: configs.IMG_URL + item?.poster_path}}
                   style={{width: 180, height: 250, borderRadius: 22}}
@@ -147,15 +146,15 @@ const Home = () => {
                       : item?.vote_average.toString()}
                   </Styled.Text>
                 </Styled.RedButton>
-                <S.Title weight={500} size={20} mt={10} ml={5}>
+                <Styled.Title weight={500} size={20} mt={10} ml={5}>
                   {item?.name}
-                </S.Title>
-              </View>
+                </Styled.Title>
+              </TouchableOpacity>
             ))}
           </ScrollView>
-          <S.Title weight={500} size={20}>
+          <Styled.Title weight={500} size={20}>
             Top 20 Movies This Week
-          </S.Title>
+          </Styled.Title>
           <ScrollView
             horizontal={true}
             style={{
@@ -163,7 +162,12 @@ const Home = () => {
               height: 390,
             }}>
             {state?.week?.map(item => (
-              <View style={{marginRight: 15, width: 180}}>
+              <TouchableOpacity
+                key={item?.id}
+                onPress={() =>
+                  navigation.navigate('MovieDetails', {id: item?.id})
+                }
+                style={{marginRight: 15, width: 180}}>
                 <Image
                   source={{uri: configs.IMG_URL + item?.poster_path}}
                   style={{width: 180, height: 250, borderRadius: 22}}
@@ -189,10 +193,10 @@ const Home = () => {
                       : item?.vote_average.toString()}
                   </Styled.Text>
                 </Styled.RedButton>
-                <S.Title weight={500} size={20} mt={10} ml={5}>
+                <Styled.Title weight={500} size={20} mt={10} ml={5}>
                   {item?.title}
-                </S.Title>
-              </View>
+                </Styled.Title>
+              </TouchableOpacity>
             ))}
           </ScrollView>
         </Styled.Container>
