@@ -20,7 +20,7 @@ S.SafeAreaView = styled(SafeAreaView)`
 `;
 
 S.Container = styled(View)`
-  padding: 0px ${STYLE_CONFIGS.PAGE.PADDING_HORIZONTAL}px;
+  padding: 0px 20px;
   flex: 1;
   background-color: ${COLORS.SCREEN_BG};
   ${Platform.OS === 'android' && 'padding-bottom: 20px;'}
