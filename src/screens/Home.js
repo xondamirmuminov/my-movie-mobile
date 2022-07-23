@@ -58,8 +58,6 @@ const Home = ({navigation}) => {
 
   FontAwesomeIcon.loadFont();
 
-  console.log(state.week);
-
   return (
     <Styled.SafeAreaView>
       <ScrollView>
@@ -188,9 +186,9 @@ const Home = ({navigation}) => {
                   }
                   style={{position: 'absolute', top: 5, left: 10}}>
                   <Styled.Text size={14} weight={600} color="white">
-                    {item?.vote_average.toString().length == 5
-                      ? item?.vote_average.toString().slice(0, 1) + '.0'
-                      : item?.vote_average.toString()}
+                    {item?.vote_average?.toString().length == 5
+                      ? item?.vote_average?.toString().slice(0, 3)
+                      : item?.vote_average?.toString()}
                   </Styled.Text>
                 </Styled.RedButton>
                 <Styled.Title weight={500} size={20} mt={10} ml={5}>
