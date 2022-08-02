@@ -1,5 +1,12 @@
 import React from 'react';
-import {ScrollView, View, ImageBackground, Image, Linking} from 'react-native';
+import {
+  ScrollView,
+  View,
+  ImageBackground,
+  Image,
+  Linking,
+  TouchableOpacity,
+} from 'react-native';
 import {useEffect, useState} from 'react';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import axios from '../utils/axios';
@@ -9,7 +16,7 @@ import {sendQuery} from '../utils/axios';
 import Urls from '../utils/urls';
 import {COLORS} from '../constants';
 import moment from 'moment';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import MaterialTabs from 'react-native-material-tabs';
 
 const MovieDetails = ({navigation, route}) => {
   const [data, setData] = useState({});
@@ -23,6 +30,7 @@ const MovieDetails = ({navigation, route}) => {
   const [account, setAccount] = useState({});
   const [favorite, setFavorite] = useState();
   const [watchList, setWatchList] = useState();
+  const [selectedTab, setSelectedTab] = useState(0);
   const id = route?.params?.id;
 
   const fetchData = async () => {
@@ -486,6 +494,19 @@ const MovieDetails = ({navigation, route}) => {
                 </View>
               </ScrollView>
             </View>
+            <View style={{marginTop: 20}}>
+              <Styled.Text size={20} weight={500} mr={10} color={COLORS.WHITE}>
+                Media
+              </Styled.Text>
+            </View>
+            <MaterialTabs
+              items={['Videos', 'Backdrops', 'Posters']}
+              selectedIndex={selectedTab}
+              onChange={setSelectedTab}
+              barColor="transparent"
+              indicatorColor={COLORS.RED}
+              activeTextColor={COLORS.RED}
+            />
           </Styled.Container>
         </View>
       </ScrollView>
