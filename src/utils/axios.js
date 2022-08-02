@@ -8,9 +8,8 @@ const baseURL = keys.BACKEND_API;
 const axios = Axios.create({baseURL, withCredentials: true, timeout: 20000});
 
 export function sendQuery(url) {
-  return Axios.get(
-    'https://api.themoviedb.org/3/' + url + `?api_key=${keys.API_KEY}`,
-  )
+  return axios
+    .get(url + `?api_key=${keys.API_KEY}`)
     .then(res => {
       return res.data;
     })
@@ -18,9 +17,8 @@ export function sendQuery(url) {
 }
 
 export function sendQueryPost(url) {
-  return Axios.post(
-    'https://api.themoviedb.org/3/' + url + `?api_key=${keys.API_KEY}`,
-  )
+  return axios
+    .post(url + `?api_key=${keys.API_KEY}`)
     .then(res => {
       return res.data;
     })

@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import {useEffect, useState} from 'react';
-import axios from 'axios';
+import axios from '../utils/axios';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Styled from '../styles';
 import {sendQuery} from '../utils/axios';
@@ -41,7 +41,7 @@ const Home = ({navigation}) => {
 
   const fetchTrendingMovieDetails = async () => {
     const {data} = await axios.get(
-      `https://api.themoviedb.org/3/movie/${trending[0].id}?api_key=${configs.API_KEY}`,
+      `movie/${trending[0].id}?api_key=${configs.API_KEY}`,
     );
     setTrendingMovie(data);
   };

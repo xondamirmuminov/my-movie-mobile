@@ -2,7 +2,7 @@ import React from 'react';
 import {ScrollView, View, ImageBackground, Image, Linking} from 'react-native';
 import {useEffect, useState} from 'react';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import axios from 'axios';
+import axios from '../utils/axios';
 import Styled from '../styles';
 import configs from '../configs';
 import {sendQuery} from '../utils/axios';
@@ -26,64 +26,62 @@ const MovieDetails = ({navigation, route}) => {
   const id = route?.params?.id;
 
   const fetchData = async () => {
-    const {data} = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${configs.API_KEY}`,
-    );
+    const {data} = await axios.get(`movie/${id}?api_key=${configs.API_KEY}`);
     setData(data);
   };
 
   const fetchCredits = async () => {
     const {data} = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${configs.API_KEY}`,
+      `movie/${id}/credits?api_key=${configs.API_KEY}`,
     );
     setCredits(data);
   };
 
   const fetchImages = async () => {
     const {data} = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/images?api_key=${configs.API_KEY}`,
+      `movie/${id}/images?api_key=${configs.API_KEY}`,
     );
     setImage(data);
   };
 
   const fetchVideos = async () => {
     const {data} = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${configs.API_KEY}`,
+      `movie/${id}/videos?api_key=${configs.API_KEY}`,
     );
     setVideo(data);
   };
 
   const fetchCollection = async () => {
     const {data: collection} = await axios.get(
-      `https://api.themoviedb.org/3/collection/${data?.belongs_to_collection?.id}?api_key=${configs.API_KEY}`,
+      `collection/${data?.belongs_to_collection?.id}?api_key=${configs.API_KEY}`,
     );
     setCollection(collection);
   };
 
   const fetchRecommendations = async () => {
     const {data} = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${configs.API_KEY}`,
+      `movie/${id}/recommendations?api_key=${configs.API_KEY}`,
     );
     setRecommendations(data);
   };
 
   const fetchKeywords = async () => {
     const {data} = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/keywords?api_key=${configs.API_KEY}`,
+      `movie/${id}/keywords?api_key=${configs.API_KEY}`,
     );
     setKeywords(data);
   };
 
   const fetchSocial = async () => {
     const {data} = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/external_ids?api_key=${configs.API_KEY}`,
+      `movie/${id}/external_ids?api_key=${configs.API_KEY}`,
     );
     setSocial(data);
   };
 
   const fetchAccount = async () => {
     const {data} = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/account_states?api_key=${configs.API_KEY}&session_id=${configs.SESSION_ID}`,
+      `movie/${id}/account_states?api_key=${configs.API_KEY}&session_id=${configs.SESSION_ID}`,
     );
     setAccount(data);
     setFavorite(data?.favorite);
@@ -307,7 +305,7 @@ const MovieDetails = ({navigation, route}) => {
                 Social:
               </Styled.Text>
               <View style={{flexDirection: 'row'}}>
-                {social?.facebook_id ? (
+                {social?.facebook_id && (
                   <TouchableOpacity
                     style={{marginRight: 15}}
                     onPress={() =>
@@ -321,7 +319,7 @@ const MovieDetails = ({navigation, route}) => {
                       size={35}
                     />
                   </TouchableOpacity>
-                ) : null}
+                )}
                 {social?.instagram_id ? (
                   <TouchableOpacity
                     style={{marginRight: 15}}
@@ -417,26 +415,76 @@ const MovieDetails = ({navigation, route}) => {
                 $ {data?.revenue?.toLocaleString('en')}
               </Styled.Text>
             </View>
-            <View
-              style={{
-                marginTop: 10,
-              }}>
-              <Styled.Text size={18} weight={500} mr={10}>
-                Keywords:
+            <View style={{marginTop: 20}}>
+              <Styled.Text size={20} weight={500} mr={10} color={COLORS.WHITE}>
+                Top Billed Cast
               </Styled.Text>
-              <View>
-                {/* {keywords?.keywords?.map(keyword => (
-                  <Styled.TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('Keywords', {id: keyword?.id})
-                    }
-                    key={keyword?.id}>
-                    <Styled.Text size={18} weight={500}>
-                      {keyword?.name}
+              <ScrollView horizontal={true}>
+                {popularCredit?.map(item => (
+                  <View key={item?.id}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate('Person', {id: item?.id})
+                      }
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginRight: 25,
+                        paddingVertical: 10,
+                      }}>
+                      {item?.profile_path ? (
+                        <Image
+                          source={{
+                            uri: configs.IMG_URL + item?.profile_path,
+                          }}
+                          style={{
+                            width: 60,
+                            height: 60,
+                            borderRadius: 30,
+                            marginTop: 10,
+                          }}
+                        />
+                      ) : (
+                        <Image
+                          source={require('../assets/images/avatar.png')}
+                          style={{
+                            width: 60,
+                            height: 60,
+                            borderRadius: 30,
+                            marginTop: 10,
+                          }}
+                        />
+                      )}
+                      <View style={{marginLeft: 10}}>
+                        <Styled.Text size={15} weight={500} color="#e9e9e9">
+                          {item?.name}
+                        </Styled.Text>
+                        <Styled.Text size={15} weight={500} color="#e9e9e9">
+                          {item?.character}
+                        </Styled.Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                ))}
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TouchableOpacity
+                    style={{flexDirection: 'row', alignItems: 'center'}}
+                    onPress={() => navigation.navigate('Casts', {id: id})}>
+                    <Styled.Text
+                      size={18}
+                      weight={500}
+                      mr={10}
+                      color={COLORS.WHITE}>
+                      View More
                     </Styled.Text>
-                  </Styled.TouchableOpacity>
-                ))} */}
-              </View>
+                    <FontAwesomeIcon
+                      color="#e9e9e9"
+                      name="long-arrow-right"
+                      size={24}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </ScrollView>
             </View>
           </Styled.Container>
         </View>
